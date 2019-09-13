@@ -1,16 +1,43 @@
-import { EventEmitter } from '@angular/core';
+import { ShoppingListService } from './../shopping-list/shopping-list.service';
+import { Ingredient } from './../shared/ingredient.model';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 
+@Injectable()
 export class RecipeService {
   recipeSelected = new EventEmitter<Recipe>();
 
   private recipes: Recipe[] = [
-    new Recipe('A test recipe', 'This is a test', 'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_960_720.jpg'),
-    new Recipe('Another test recipe', 'This is another test', 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-grilled-cheese-pancakes-horizontal-still004-1567017656.jpg?crop=1.00xw:0.892xh;0,0.0427xh&resize=980:*'),
+    new Recipe(
+      'Tasty Schnitzel',
+      'A super-tasty Schnitzel - just awesome!',
+      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
+      [
+        new Ingredient('Meet', 1),
+        new Ingredient('French Fries', 20)
+      ]
+    ),
+    new Recipe(
+      'Big Fat Burger',
+      'What else do you need to say?',
+      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
+      [
+        new Ingredient('Buns', 2),
+        new Ingredient('Meat', 1),
+        new Ingredient('Salad', 1),
+        new Ingredient('Cheese', 2),
+      ]
+    ),
   ];
 
   getRecipes() {
     return this.recipes.slice();
   }
+
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    this.slService.addIngredients(ingredients);
+  }
+
+  constructor(private slService: ShoppingListService) {}
 
 }
